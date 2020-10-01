@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 
 import BoxContainer from "./app/components/BoxContainer";
 import Button from "./app/components/Button";
@@ -57,6 +57,7 @@ export default function App() {
           </>
         ) : (
           <>
+            <Image style={styles.image} source={require("./assets/logo.png")} />
             {responses.length !== 0 && <ScoreContainer responses={responses} />}
             <Button title="New Game" onPress={createNewGame} />
           </>
@@ -72,5 +73,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  image: {
+    height: 120,
+    width: 120,
   },
 });
