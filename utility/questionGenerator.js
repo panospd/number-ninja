@@ -1,24 +1,17 @@
 import numberGenerator from "./numberGenerator";
-numberGenerator;
+const appSettings = require("../config/appSettings.json");
+
+const min = appSettings.numberRange[0];
+const max = appSettings.numberRange[1];
 
 const generate = (operation = "+") => {
-  const number1 = numberGenerator.generate();
-  const number2 = numberGenerator.generate();
+  const number1 = numberGenerator.generate(min, max);
+  const number2 = numberGenerator.generate(min, max);
 
   const correctAnswer = calculate(number1, number2, operation);
+  const correctAnswerIndex = numberGenerator.generate(0, 3);
 
-  const correctAnswerPosition = numberGenerator.generate(0, 3);
-
-  const answers = new Array(4);
-
-  answers[correctAnswerPosition] = correctAnswer;
-
-  for (let i = 0; i < 4; i++) {
-    answers[i] =
-      answers[i] || answers[i] === 0
-        ? answers[i]
-        : correctAnswer + numberGenerator.generate(-8, 9);
-  }
+  const answers = createAnswers(correctAnswer, correctAnswerIndex);
 
   return {
     question: {
@@ -28,10 +21,37 @@ const generate = (operation = "+") => {
       operation,
     },
     answer: {
-      correctAnswerPosition,
+      correctAnswerIndex,
       answers,
     },
   };
+};
+
+const createAnswers = (correctAnswer, correctAnswerIndex) => {
+  const answers = new Array(4);
+
+  answers[correctAnswerIndex] = correctAnswer;
+
+  let deviationFromCorrect = 0;
+
+  for (let i = 0; i < 4; i++) {
+    if (answers[i] || answers[i] === 0) continue;
+
+    deviationFromCorrect = numberGenerator.generate(
+      -8,
+      9,
+      deviationFromCorrect
+    );
+
+    answers[i] =
+      correctAnswer +
+      numberGenerator.generate(
+        appSettings.deviationFromCorrect.left,
+        appSettings.deviationFromCorrect.right
+      );
+  }
+
+  return answers;
 };
 
 const calculate = (number1, number2, operation) => {

@@ -10,7 +10,9 @@ import AppContext from "./context";
 import numberGenerator from "./utility/numberGenerator";
 import questionGenerator from "./utility/questionGenerator";
 
-const operations = ["+", "-"];
+const appSettings = require("./config/appSettings.json");
+
+const operations = appSettings.operations;
 
 export default function App() {
   const [timer, setTimer] = useState(0);
@@ -26,7 +28,7 @@ export default function App() {
   };
 
   const reset = () => {
-    setTimer(30);
+    setTimer(appSettings.roundTime);
     setResponses([]);
   };
 

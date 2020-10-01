@@ -5,11 +5,15 @@ import appStyles from "../../config/appStyles";
 export default function QuestionContainer({
   question: { title, number1, number2, operation },
 }) {
+  const displayNumber = number => {
+    return number > 0 ? number : `(${number})`;
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.operation}>
-        {`${number1} ${operation} ${number2} = `}
+        {`${displayNumber(number1)} ${operation} ${displayNumber(number2)} = `}
         <Text style={styles.questionMark}>?</Text>
       </Text>
     </View>
