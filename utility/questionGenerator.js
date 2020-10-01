@@ -14,9 +14,10 @@ const generate = (operation = "+") => {
   answers[correctAnswerPosition] = correctAnswer;
 
   for (let i = 0; i < 4; i++) {
-    answers[i] = answers[i]
-      ? answers[i]
-      : correctAnswer + numberGenerator.generate(-8, 9);
+    answers[i] =
+      answers[i] || answers[i] === 0
+        ? answers[i]
+        : correctAnswer + numberGenerator.generate(-8, 9);
   }
 
   return {
