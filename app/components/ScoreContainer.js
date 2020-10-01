@@ -3,8 +3,6 @@ import { View, StyleSheet, Text } from "react-native";
 import appStyles from "../../config/appStyles";
 
 export default function ScoreContainer({ responses }) {
-  if (!responses) return null;
-
   return (
     <View style={styles.container}>
       <Text style={styles.text}>
@@ -16,7 +14,7 @@ export default function ScoreContainer({ responses }) {
 }
 
 const styles = StyleSheet.create({
-  container: { marginTop: 100 },
+  container: { marginTop: 50 },
   text: {
     fontSize: appStyles.fonts.large,
   },

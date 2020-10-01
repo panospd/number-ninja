@@ -10,5 +10,6 @@ export default {
     pink: "#ffc0cb",
     dark: "black",
     red: "red",
+    lime: "#32CD32",
   },
 };
