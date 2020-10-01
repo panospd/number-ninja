@@ -38,17 +38,12 @@ const createAnswers = (correctAnswer, correctAnswerIndex) => {
     if (answers[i] || answers[i] === 0) continue;
 
     deviationFromCorrect = numberGenerator.generate(
-      -8,
-      9,
+      appSettings.deviationFromCorrect[0],
+      appSettings.deviationFromCorrect[1],
       deviationFromCorrect
     );
 
-    answers[i] =
-      correctAnswer +
-      numberGenerator.generate(
-        appSettings.deviationFromCorrect.left,
-        appSettings.deviationFromCorrect.right
-      );
+    answers[i] = correctAnswer + deviationFromCorrect;
   }
 
   return answers;
