@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Image, StyleSheet, View } from "react-native";
 
-import BoxContainer from "./app/components/BoxContainer";
-import Button from "./app/components/Button";
-import QuestionContainer from "./app/components/QuestionContainer";
-import ScoreContainer from "./app/components/ScoreContainer";
-import TimerContainer from "./app/components/TimerContainer";
+import GameScreen from "./screens/GameScreen";
 import AppContext from "./context";
 import numberGenerator from "./utility/numberGenerator";
 import questionGenerator from "./utility/questionGenerator";
+import WelcomeScreen from "./screens/WelcomeScreen";
 
 const appSettings = require("./config/appSettings.json");
-
-const operations = appSettings.operations;
 
 export default function App() {
   const [timer, setTimer] = useState(0);
@@ -24,7 +18,7 @@ export default function App() {
   };
 
   const suffleOperation = () => {
-    return operations[numberGenerator.generate(0, 1)];
+    return appSettings.operations[numberGenerator.generate(0, 1)];
   };
 
   const reset = () => {
@@ -47,37 +41,19 @@ export default function App() {
     setNextQuestionContainer(questionGenerator.generate(suffleOperation()));
   }, [responses]);
 
+  const gameInProgress = nextQuestionContainer && timer;
+
   return (
     <AppContext.Provider value={{ handleResponse }}>
-      <View style={styles.container}>
-        {nextQuestionContainer && timer ? (
-          <>
-            <QuestionContainer question={nextQuestionContainer.question} />
-            <BoxContainer answer={nextQuestionContainer.answer} />
-            <TimerContainer time={timer} />
-            <ScoreContainer responses={responses} />
-          </>
-        ) : (
-          <>
-            <Image style={styles.image} source={require("./assets/logo.png")} />
-            {responses.length !== 0 && <ScoreContainer responses={responses} />}
-            <Button title="New Game" onPress={createNewGame} />
-          </>
-        )}
-      </View>
+      {gameInProgress ? (
+        <GameScreen
+          questionContainer={nextQuestionContainer}
+          timer={timer}
+          responses={responses}
+        />
+      ) : (
+        <WelcomeScreen responses={responses} createNewGame={createNewGame} />
+      )}
     </AppContext.Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  image: {
-    height: 120,
-    width: 120,
-  },
-});
