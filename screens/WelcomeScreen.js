@@ -1,5 +1,6 @@
 import React from "react";
 import { Image, StyleSheet } from "react-native";
+import Button from "../app/components/Button";
 import Screen from "../app/components/Screen";
 
 export default function WelcomeScreen({ createNewGame, responses }) {
